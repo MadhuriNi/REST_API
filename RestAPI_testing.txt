@@ -1,0 +1,149 @@
+REST API :
+
+1. What is REST API ? 
+   REST stands for Representational state transfer. REST is an approch to or an architectural style for writing API
+   
+   API stands for Application Program Interface. API can return data that you need for your application in a convenient format(e.g JSON or XML)
+   
+   REST API defines a set of operations where developers can send a requests and can recieve a response via HTTP Protocol
+   
+   Most of the times we write our own REST APIs but sometimes the third party tools will itself gives the rest APIs. These given REST APIs will have access to the third party tools which our REST APIs wont have
+   
+   REST APIs are Stateless communication. REST APIs are independent of the language. The client and server can be in two different languages
+   
+   
+   
+                req(JSON/XML)                req(HTTPS)
+   Application ----------------> REST API --------------------> 3rd party DB
+               <---------------           <--------------------
+                resp(JSON/XML)               resp(HTTPS)
+	
+   An API is REST API if it has http methods like get and post
+				
+				
+				
+2. What is exactly REST API testing ?
+   We will be validating the response of REST API. Whatever the response REST API is sending is it correct or not ? The response from REST API should match with the response on the application
+   
+3. What is an Endpoint in REST API ?
+   The address of REST API which we need to hit is called Endpoint. Endpoint contains : (BURP)
+   BaseURL    : the website (www.qaclickacademy.com)
+   Resource   : individual files (home,courses,videos,interview guide,practise,blog,about,contact)
+   Parameters : 
+   
+   Endpoint : BaseURL/resource?Parameters
+              www.qaclickacademy.com/courses-detail/id=130
+			  
+			  
+4. What are the types of REST requests ?
+   GET    : to retrieve something or to extract information from the server. It will have no other effect 		  on the data. Parameters are send as the part of Endpoint. No Payload/Body required
+   POST   : to add something or creating something new in your backend code(server). Parameters will be in 		   JSON/XML and will be in body/payload
+   PUT    : same as POST
+   DELETE : Delete the data from ur server. It will be present in body/payload
+   
+
+5. What are the different types of tools of testing of REST API ?
+   PostMan
+   Advanced Rest Client(Addon to Chrome)
+   SOAP UI
+   JMETER
+   
+6. Google API Manual testing :
+
+	
+
+	goto this site on google : https://developers.google.com/places/web-service/search
+	
+	https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=YOUR_API_KEY
+
+	Base URL   : https://maps.googleapis.com/
+	Resources  : maps/api/place/nearbysearch/
+	Output     : json
+	Parameters :location=-33.8670522,151.1957362  radius=1500 
+	
+   Google API Key : AIzaSyD82ZLTLwR9Yiwjt6ThTbJZytC-ZCZTyQA
+   
+   
+   In Postman enter all these things, method = GET and send you will get the output
+   
+   
+   
+ For Post method, there is one customised url created   :http://216.10.245.166/maps/api/place/add/json?key=qaclick123
+   
+   Select Body --> raw --> JSON(application/json)
+   
+   {
+    "location":{
+        "lat" : -38.383494,
+        "lng" : 33.427362
+    },
+    "accuracy":50,
+    "name":"Frontline house",
+    "phone_number":"(+91) 983 893 3937",
+    "address" : "29, side layout, cohen 09",
+    "types": ["shoe park","shop"],
+    "website" : "http://google.com",
+    "language" : "French-IN"
+}
+   
+   
+  http://216.10.245.166/maps/api/place/add/xml?key=qaclick123
+  
+  Select Body --> raw --> XML(application/xml)
+  
+  <?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <location>
+        <lat>-38.383494</lat>
+        <lng>33.427362</lng>
+    </location>
+    <accuracy>50</accuracy>
+    <name>The Mens store</name>
+    <phone_number>(+91) 983 893 3937</phone_number>
+    <address>Anna Salai, Chennai</address>
+    <types>shoe park</types>
+    <types>kadai</types>
+    <website>http://google.com</website>
+    <language>tamil-IN</language>
+</root>
+
+   
+   Collections --> REST API Testing
+   
+7. REST API Automation : 
+   
+   Eclipse is the IDE which we will use for automation of REST API. 
+   Download REST Assured jars from : rest-assured.io/
+   
+   
+ 8.  for the code in eclipse :
+   
+   //BURP (Base URI, Resource, Parameters)
+   
+   Firstly, pass the uri -> RestAssured.baseURI="https://maps.googleapis.com";
+   
+   in the given block, we can pass headers,cookies,parameters,body(when the req is post)
+   
+   given().
+		param("","").
+		header("","").
+		cookie("","").
+		body().
+   
+   in the when() block pass resource
+   
+   when().
+		 get("maps/api/place/nearbysearch/json").
+   
+   in the then() block pass assertions 
+   
+   	then().
+		assertThat().statusCode(200);
+		
+		assertThat().statusCode(200).and().contentType(ContentType.JSON);
+   
+   from extract(), pull out the required variables
+   
+   
+			  
+			  
